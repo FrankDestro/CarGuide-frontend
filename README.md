@@ -1,5 +1,21 @@
 # CarGuide Catalogo de carros. 
 
+### Executar aplicação via VSCODE. 
+
+fazer um gitclone do repositorio -> git@github.com:FrankDestro/CarGuide-frontend.git
+
+dentro da pasta CarGuideFrontEnd/carguide abrir um terminal e executar o comando abaixo para instalar as dependencia node_modules. 
+```js
+yarn 
+```
+depois digitar o comando abaixo para abrir o projeto no vs code 
+```js
+code .
+```
+executar o projeto com o comando : 
+```js
+yarn dev
+```
 
 
 ## Tela de catalogo dos carros, por ordem de valor
