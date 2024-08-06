@@ -1,0 +1,16 @@
+.container-img-admin img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.container-right-menu-admin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.container-right-menu-admin span {
+    color: white;
+    font-weight: 700;
+}

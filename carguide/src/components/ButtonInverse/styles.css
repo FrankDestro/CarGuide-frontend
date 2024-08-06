@@ -1,0 +1,5 @@
+.carguide-btn-white {
+    border: 1px solid var(--carguide-color-btn-primary);
+    background-color: var(--carguide-color-btn-inverse);
+    color: var(--carguide-color-btn-primary);
+  }

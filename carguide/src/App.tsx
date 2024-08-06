@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { PrivateRoute } from "./components/Private";
+import { AccessTokenPayLoadDTO } from "./models/auth";
+import Admin from "./pages/Admin";
+import AdminHome from "./pages/Admin/AdminHome";
+import VehicleForm from "./pages/Admin/VehicleForm";
+import VehicleListing from "./pages/Admin/VehicleListing";
+import Catalog from "./pages/client/Catalog";
+import ClientHome from "./pages/client/home";
+import Login from "./pages/client/Login";
+import * as authService from "./services/auth-service";
+import { ContextToken } from "./utils/context-token";
+import { history } from "./utils/history";
+import {
+  unstable_HistoryRouter as HistoryRouter,
+} from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [contextTokenPayload, setContextTokenPayload] = useState<AccessTokenPayLoadDTO>();
+
+  useEffect(() => {
+
+    if (authService.isAuthenticated()) {
+      const payload = authService.getAccessTokenPayload();
+      setContextTokenPayload(payload);
+    }
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+     <ContextToken.Provider value={{ contextTokenPayload, setContextTokenPayload }}>
+     <HistoryRouter history={history}>
+      <Routes>
+        <Route path="/" element={<ClientHome />}>
+          <Route index element={<Catalog />} />
+          <Route path="login" element={<Login />} />
+        </Route>
+        <Route path="/admin/" element={<PrivateRoute roles={["ROLE_ADMIN"]}> <Admin /></PrivateRoute>}>
+          <Route index element={<Navigate to="/admin/home" />} />
+          <Route path="home" element={<AdminHome />} />
+          <Route path="vehicles" element={<VehicleListing />} />
+          <Route path="vehicle/:vehicleId" element={<VehicleForm />} />
+        </Route>
+      </Routes>
+    </HistoryRouter>
+    </ContextToken.Provider>
+  );
 }
 
-export default App
+export default App;

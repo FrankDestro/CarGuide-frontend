@@ -1,0 +1,15 @@
+#catalog-section {
+    padding: 20px 0;
+  }
+  
+  .carguide-catalog-cards {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
